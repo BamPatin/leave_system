@@ -36,6 +36,6 @@ class Number(models.Model):
     personal = models.IntegerField(default=10)  #ลากิจ
     vacation = models.IntegerField(default=8)   #ลาพักร้อน
  
-    def __str__(self):
-        return self.user   
+    # def __str__(self):
+    #     return self.form   
     
