@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Leave system</title>
+{% endblock title %}
+
+{% block content %}
+        <h2 class="text-center">กรอกฟอร์มขอลา</h2>
+        <div class="d-flex justify-content-center align-items-center">
+            <form method="post" action="formleave">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="name" >Name</label>
+                    <input type="text" name="name" class="from-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email" >Email</label>
+                    <input type="text" name="email" class="from-control">
+                </div>
+
+                <select name="typeleave" class="form-control mb-3" aria-label="Default select example">
+                    <option selected >Open this select type</option>
+                    <option value="S">Sick Leave</option>
+                    <option value="P">Personal Leave</option>
+                    <option value="V">Vacation Leave</option>
+                </select>
+
+                <div class="form-group mb-3">
+                    <label for="numberleave" >Number of leave days</label>
+                    <input type="numberleave" name="numberleave" class="from-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="From_Date" >From Date</label>
+                    <input type="date" name="From_Date" class="from-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="To_Date" >To Date</label>
+                    <input type="date" name="To_Date" class="from-control">
+                </div>            
+            
+                <input type="submit" value="submit" class="btn btn-success">
+            </form>
+        </div>
+
+   
+{% endblock content %}  

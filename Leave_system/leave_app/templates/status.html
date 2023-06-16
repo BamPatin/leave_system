@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>status</title>
+{% endblock title %}
+
+{% block content %}
+        <h2 class="text-center">status</h2>
+
+        <div class="d-flex justify-content-center" >
+            <div class="m-5">
+                <div class="alert alert-info" role="alert" >
+                    Sick Leave :      
+                </div>
+            </div>
+            <div class="m-5">
+                <div class="alert alert-info" role="alert" >
+                    Personal Leave :
+                </div>
+            </div>
+            <div class="m-5">
+                <div class="alert alert-info" role="alert">
+                    Vacation Leave :
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Type</th>
+                <th scope="col">From Date</th>
+                <th scope="col">To Date</th>
+                <th scope="col">Numberleave</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for person in all_person %}
+                <tr>
+                  <th scope="row">{{person.id}}</th>
+                  <td>{{person.typeleave}}</td>
+                  <td>{{person.From_Date}}</td>
+                  <td>{{person.To_Date}}</td>
+                  <td>{{person.numberleave}}</td>
+                  <td>success</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+
+   
+{% endblock content %}  

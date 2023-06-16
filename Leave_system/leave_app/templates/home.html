@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>หน้าแรกของเว็บไซต์</title>
+{% endblock title %}
+
+{% block content %}
+    <h2 class="text-center">ข้อมูลประชากรทั้งหมด</h2>
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success" role="alert">
+            <storng>{{message}}</storng>
+          </div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>  
+            <th scope="col">Last Name</th>    
+            <th scope="col">Age</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">แก้ไข</th>   
+            <th scope="col">ลบ</th>
+          </tr>
+        </thead>
+    
+    </table>
+{% endblock content %}  

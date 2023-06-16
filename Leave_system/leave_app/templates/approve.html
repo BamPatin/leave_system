@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Approve Leave</title>
+{% endblock title %}
+
+{% block content %}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>  
+            <th scope="col">From Date</th>
+            <th scope="col">To Date</th>
+            <th scope="col">Number</th>
+            <th scope="col">Approve</th>   
+            <th scope="col">Decline</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for person in all_person %}
+        <tr>
+            <th scope="row">{{person.name}}</th>
+            <td>{{person.typeleave}}</td>
+            <td>{{person.From_Date}}</td>
+            <td>{{person.To_Date}}</td>
+            <td>{{person.numberleave}}</td>
+            <td><a href='success' class="btn btn-success">Approve</a></td>
+            <td><a href='unsuccess' class="btn btn-warning">Decline</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="submit" value="submit" class="btn btn-success">
+   
+{% endblock content %}  
