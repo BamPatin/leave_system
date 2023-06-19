@@ -6,29 +6,33 @@
 
 {% block content %}
         <h2 class="text-center">status</h2>
-
+        {% with latest_person=all_person.latest %}
         <div class="d-flex justify-content-center" >
+            {% for num in all_number %}
             <div class="m-5">
                 <div class="alert alert-info" role="alert" >
-                    Sick Leave :      
+                    Sick Leave : {{num.sick}}  
+                
                 </div>
             </div>
             <div class="m-5">
                 <div class="alert alert-info" role="alert" >
-                    Personal Leave :
+                    Personal Leave : {{num.personal}}
                 </div>
             </div>
             <div class="m-5">
                 <div class="alert alert-info" role="alert">
-                    Vacation Leave :
+                    Vacation Leave : {{num.vacation}}
                 </div>
             </div>
+            {% endfor %}
         </div>
+        {% endwith %}
 
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">ID</th>
+                <th scope="col">Username</th>
                 <th scope="col">Type</th>
                 <th scope="col">From Date</th>
                 <th scope="col">To Date</th>
@@ -39,7 +43,7 @@
             <tbody>
                 {% for person in all_person %}
                 <tr>
-                  <th scope="row">{{person.id}}</th>
+                  <th scope="row">{{person.username}}</th>
                   <td>{{person.typeleave}}</td>
                   <td>{{person.From_Date}}</td>
                   <td>{{person.To_Date}}</td>

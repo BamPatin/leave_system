@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'leave_app'
 ]
 
+AUTH_USER_MODEL = 'leave_app.Person'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -9,29 +9,37 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Name</th>
+            <th scope="col">Username</th>
             <th scope="col">Type</th>  
             <th scope="col">From Date</th>
             <th scope="col">To Date</th>
             <th scope="col">Number</th>
+            <th scope="col">Reason</th>
             <th scope="col">Approve</th>   
             <th scope="col">Decline</th>
         </tr>
         </thead>
         <tbody>
-        {% for person in all_person %}
+        {% for person in allow %}
         <tr>
-            <th scope="row">{{person.name}}</th>
+            <th scope="row">{{person.username}}</th>
             <td>{{person.typeleave}}</td>
             <td>{{person.From_Date}}</td>
             <td>{{person.To_Date}}</td>
             <td>{{person.numberleave}}</td>
-            <td><a href='success' class="btn btn-success">Approve</a></td>
-            <td><a href='unsuccess' class="btn btn-warning">Decline</a></td>
+            <td>{{person.reason}}</td>
+            <td><a href='success/{{person.id}}' class="btn btn-success" onclick="deleteData({{person.id}})">Approve</a></td>
+            <td><a href='unsuccess'  class="btn btn-warning" onclick="deleteData({{person.id}})">Decline</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-    <input type="submit" value="submit" class="btn btn-success">
+
+    <script>
+        function deleteData(personId) {
+            var element = document.getElementById('person-' + personId);
+            element.remove();
+        }
+    </script>
    
 {% endblock content %}  

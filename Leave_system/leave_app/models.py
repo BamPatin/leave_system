@@ -10,32 +10,48 @@ LEAVE_CHOICE = (
     ('V','Vacation Leave'),
 )
 
-class Form(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100) #,primary_key=True)
-    date = models.DateTimeField(auto_now = False, auto_now_add = True, null = False, blank = True)  
-    # user = models.OneToOneField(ชื่อตารางพนักงาน,on_delete=models.CASCADE,primary_key=True,)
-    typeleave = models.CharField(max_length=5 , null=True , blank=True , choices=LEAVE_CHOICE)
-    numberleave = models.IntegerField()
-    From_Date = models.DateField()    
-    To_Date = models.DateField()    
-    
+class Person(AbstractUser):
+    nickname = models.CharField(max_length=100,null=True)
+    tel = models.CharField(max_length=20,null = True)
+    team = models.CharField(max_length=100,null=True) 
+    position = models.CharField(max_length=100,null=True) 
+    leader = models.CharField(max_length=100,null=True) 
+
     def __str__(self):
-        return self.name
+        return str(self.username)
 
 class Number(models.Model):
     # user = models.ForeignKey(Form,on_delete=models.CASCADE,primary_key=True)
     # name = models.ForeignKey(Form, on_delete=models.CASCADE, related_name='name_from')
-    form = models.OneToOneField(
-        Form,
+    username = models.OneToOneField(
+        Person,
         on_delete=models.CASCADE,
         primary_key=True,
+        # db_column="username"
     )
-    # user = models.CharField(max_length=100)
     sick = models.IntegerField(default=30)      #ลาป่วย
     personal = models.IntegerField(default=10)  #ลากิจ
     vacation = models.IntegerField(default=8)   #ลาพักร้อน
  
-    # def __str__(self):
-    #     return self.form   
+    def __str__(self):
+        return str(self.username.username)
+    
+
+class Form(models.Model):
+    # name = models.CharField(max_length=100)
+    # email = models.CharField(max_length=100) 
+    # user = models.OneToOneField(ชื่อตารางพนักงาน,on_delete=models.CASCADE,primary_key=True,)
+    date = models.DateTimeField(auto_now = False, auto_now_add = True, null = False, blank = True)  
+    username = models.ForeignKey(Person, on_delete=models.CASCADE )
+    typeleave = models.CharField(max_length=5 , null=True , blank=True , choices=LEAVE_CHOICE)
+    numberleave = models.IntegerField()
+    From_Date = models.DateField()    
+    To_Date = models.DateField()  
+    reason = models.CharField(max_length=100,null = True)
+
+    class Meta:
+        get_latest_by = 'date'
+    
+    def __str__(self):
+        return str(self.username.username)
     

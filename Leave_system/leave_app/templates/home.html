@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block content %}
-    <h2 class="text-center">ข้อมูลประชากรทั้งหมด</h2>
+    <h2 class="text-center">ลงชื่อเข้าสู่ระบบ</h2>
     {% if messages %}
         {% for message in messages %}
           <div class="alert alert-success" role="alert">
@@ -14,19 +14,17 @@
         {% endfor %}
     {% endif %}
 
-    <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">First Name</th>  
-            <th scope="col">Last Name</th>    
-            <th scope="col">Age</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">แก้ไข</th>   
-            <th scope="col">ลบ</th>
-          </tr>
-        </thead>
-    
-    </table>
+    <form method="post" action="login">
+        {% csrf_token %}
+        <div class="form-group mb-3">        
+            <label for="username">Username</label>
+            <input type="text" name="username" class="from-control">
+        </div>
+        <div class="form-group mb-3">
+            <label for="password">Password</label>
+            <input type="text" name="password" class="from-control">
+        </div>
+        <input type="submit" value="ลงชื่อเข้าสู่ระบบ" class="btn btn-success">
+
+    </form>
 {% endblock content %}  

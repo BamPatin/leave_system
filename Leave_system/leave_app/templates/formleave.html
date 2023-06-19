@@ -9,14 +9,14 @@
         <div class="d-flex justify-content-center align-items-center">
             <form method="post" action="formleave">
                 {% csrf_token %}
-                <div class="form-group mb-3">
+                {% comment %} <div class="form-group mb-3">
                     <label for="name" >Name</label>
                     <input type="text" name="name" class="from-control">
                 </div>
                 <div class="form-group mb-3">
                     <label for="email" >Email</label>
                     <input type="text" name="email" class="from-control">
-                </div>
+                </div> {% endcomment %}
 
                 <select name="typeleave" class="form-control mb-3" aria-label="Default select example">
                     <option selected >Open this select type</option>
@@ -36,9 +36,14 @@
                 <div class="form-group mb-3">
                     <label for="To_Date" >To Date</label>
                     <input type="date" name="To_Date" class="from-control">
-                </div>            
+                </div>    
+                <div class="form-group mb-3">
+                    <label for="reason" >Reason</label>
+                    <input type="text" name="reason" class="from-control">
+                </div>        
             
                 <input type="submit" value="submit" class="btn btn-success">
+                <a href='status' class="btn btn-warning">status</a>
             </form>
         </div>
 
