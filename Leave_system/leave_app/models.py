@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.html import format_html
+from django.core.validators import MinValueValidator
+
 
 # Create your models here.
 
@@ -29,9 +31,9 @@ class Number(models.Model):
         primary_key=True,
         # db_column="username"
     )
-    sick = models.IntegerField(default=30)      #ลาป่วย
-    personal = models.IntegerField(default=10)  #ลากิจ
-    vacation = models.IntegerField(default=8)   #ลาพักร้อน
+    sick = models.IntegerField(default=30 , validators=[MinValueValidator(0)])    #ลาป่วย
+    personal = models.IntegerField(default=10 , validators=[MinValueValidator(0)])  #ลากิจ
+    vacation = models.IntegerField(default=8 , validators=[MinValueValidator(0)])   #ลาพักร้อน
  
     def __str__(self):
         return str(self.username.username)
@@ -48,7 +50,7 @@ class Form(models.Model):
     From_Date = models.DateField()    
     To_Date = models.DateField()  
     reason = models.CharField(max_length=100,null = True)
-
+    show = models.BooleanField(default=False)
     class Meta:
         get_latest_by = 'date'
     

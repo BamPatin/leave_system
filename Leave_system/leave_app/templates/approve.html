@@ -28,18 +28,13 @@
             <td>{{person.To_Date}}</td>
             <td>{{person.numberleave}}</td>
             <td>{{person.reason}}</td>
-            <td><a href='success/{{person.id}}' class="btn btn-success" onclick="deleteData({{person.id}})">Approve</a></td>
-            <td><a href='unsuccess'  class="btn btn-warning" onclick="deleteData({{person.id}})">Decline</a></td>
+            <td><a href='success/{{person.id}}' class="btn btn-success" >Approve</a></td>
+            <td><a href='unsuccess/{{person.id}}'  class="btn btn-warning" >Decline</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <script>
-        function deleteData(personId) {
-            var element = document.getElementById('person-' + personId);
-            element.remove();
-        }
-    </script>
+
    
 {% endblock content %}  

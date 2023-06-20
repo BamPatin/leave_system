@@ -6,17 +6,18 @@
 
 {% block content %}
         <h2 class="text-center">กรอกฟอร์มขอลา</h2>
+        
+        {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+            <storng>{{message}}</storng>
+          </div>
+        {% endfor %}
+        {% endif %}
+
         <div class="d-flex justify-content-center align-items-center">
             <form method="post" action="formleave">
                 {% csrf_token %}
-                {% comment %} <div class="form-group mb-3">
-                    <label for="name" >Name</label>
-                    <input type="text" name="name" class="from-control">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="email" >Email</label>
-                    <input type="text" name="email" class="from-control">
-                </div> {% endcomment %}
 
                 <select name="typeleave" class="form-control mb-3" aria-label="Default select example">
                     <option selected >Open this select type</option>

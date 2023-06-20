@@ -8,6 +8,5 @@ urlpatterns = [
     path('status',views.status),
     path('approve',views.approve),
     path('success/<person_id>',views.success),
-    path('unsuccess',views.unsuccess),
-
+    path('unsuccess/<person_id>',views.unsuccess),
 ]

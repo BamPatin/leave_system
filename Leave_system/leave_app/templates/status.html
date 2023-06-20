@@ -5,14 +5,12 @@
 {% endblock title %}
 
 {% block content %}
-        <h2 class="text-center">status</h2>
-        {% with latest_person=all_person.latest %}
+        <h2 class="text-center">Status </h2>
         <div class="d-flex justify-content-center" >
             {% for num in all_number %}
             <div class="m-5">
                 <div class="alert alert-info" role="alert" >
                     Sick Leave : {{num.sick}}  
-                
                 </div>
             </div>
             <div class="m-5">
@@ -27,7 +25,6 @@
             </div>
             {% endfor %}
         </div>
-        {% endwith %}
 
         <table class="table">
             <thead>
@@ -48,7 +45,11 @@
                   <td>{{person.From_Date}}</td>
                   <td>{{person.To_Date}}</td>
                   <td>{{person.numberleave}}</td>
-                  <td>success</td>
+                  {% if person.show == 1 %}
+                      <td>ดำเนินการเสร็จสิ้น</td>
+                  {% else %}
+                      <td>รอดำเนินการ</td>
+                  {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
