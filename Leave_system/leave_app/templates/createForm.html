@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>หน้ากรอกข้อมูล</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  img{
+    width: 85%;
+    align-items: center;
+  }
+  .formbold-mb-3 {
+    margin-bottom: 15px;
+  }
+  .formbold-relative {
+    position: relative;
+  }
+  .formbold-opacity-0 {
+    opacity: 0;
+  }
+  .formbold-stroke-current {
+    stroke: currentColor;
+  }
+  #supportCheckbox:checked ~ div span {
+    opacity: 1;
+  }
+
+  .formbold-main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .formbold-form-wrapper {
+    margin: 0 auto;
+    max-width: 570px;
+    width: 100%;
+    background: white;
+    padding: 40px;
+  }
+
+  .formbold-form-title {
+    margin-bottom: 30px;
+  }
+  h2{
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 34px;
+    color: #07074d;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .formbold-input-flex {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  .formbold-input-flex > div {
+    width: 50%;
+  }
+  .formbold-form-input {
+    text-align: left;
+    width: 100%;
+    padding: 13px 22px;
+    border-radius: 5px;
+    border: 1px solid #dde3ec;
+    background: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    color: #536387;
+    outline: none;
+    resize: none;
+  }
+  .formbold-form-input:focus {
+    border-color: #6a64f1;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+  .formbold-form-label {
+    color: #536387;
+    font-size: 14px;
+    line-height: 24px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .formbold-btn {
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 14px 25px;
+    border: none;
+    font-weight: 500;
+    background-color: #6a64f1;
+    color: white;
+    cursor: pointer;
+    margin-top: 25px;
+    
+  }
+  .formbold-btn:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="formbold-main-wrapper">
+    <div class="formbold-form-wrapper">
+      <img src="https://static.vecteezy.com/system/resources/previews/005/604/619/original/male-and-female-personnel-stand-in-front-of-the-job-applicant-list-concept-of-choosing-workers-or-personnel-recruiting-or-hiring-staff-cartoon-illustration-vector.jpg">
+      <form action="/addForm/" method="post" id="register_form">
+        {% csrf_token %}
+        <div class="formbold-form-title">
+          <h2>Register Form</h2>
+        </div>
+        <div class="formbold-mb-3">
+            <label for="username" class="formbold-form-label">
+              Username
+            </label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              class="formbold-form-input"
+            />
+        </div>
+  
+        <div class="formbold-input-flex">
+          <div>
+            <label for="first_name" class="formbold-form-label">
+              First name
+            </label>
+            <input
+              type="text"
+              name="first_name"
+              id="first_name"
+              class="formbold-form-input"
+            />
+          </div>
+          <div>
+            <label for="last_name" class="formbold-form-label"> Last name </label>
+            <input
+              type="text"
+              name="last_name"
+              id="last_name"
+              class="formbold-form-input"
+            />
+          </div>
+        </div>
+  
+        <div class="formbold-input-flex">
+          <div>
+            <label for="nickname" class="formbold-form-label"> Nickname </label>
+            <input
+              type="text"
+              name="nickname"
+              id="nickname"
+              class="formbold-form-input"
+            />
+          </div>
+          <div>
+            <label for="tel" class="formbold-form-label"> Phone number </label>
+            <input
+              type="tel"
+              name="tel"
+              id="phone"
+              class="formbold-form-input"
+            />
+          </div>
+        </div>
+  
+        <div class="formbold-mb-3">
+          <label for="email" class="formbold-form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="formbold-form-input"
+          />
+        </div>
+
+        <div class="formbold-input-flex">
+            <div>
+              <label for="team" class="formbold-form-label"> Team </label>
+              <input
+                type="text"
+                name="team"
+                id="team"
+                class="formbold-form-input"
+              />
+            </div>
+            <div>
+              <label for="position" class="formbold-form-label"> Position </label>
+              <input
+                type="text"
+                name="position"
+                id="position"
+                class="formbold-form-input"
+              />
+            </div>
+        </div>
+
+        <div class="formbold-mb-3">
+            <label for="leader" class="formbold-form-label">
+              Leader
+            </label>
+            <input
+              type="text"
+              name="leader"
+              id="leader"
+              class="formbold-form-input"
+            />
+        </div>
+
+        <div class="formbold-mb-3">
+            <label for="password" class="formbold-form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="formbold-form-input"
+            />
+          </div>
+  
+        <button type="submit" class="formbold-btn">SAVE</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -12,6 +12,7 @@ LEAVE_CHOICE = (
     ('V','Vacation Leave'),
 )
 
+
 class Person(AbstractUser):
     nickname = models.CharField(max_length=100,null=True)
     tel = models.CharField(max_length=20,null = True)
@@ -21,6 +22,7 @@ class Person(AbstractUser):
 
     def __str__(self):
         return str(self.username)
+
 
 class Number(models.Model):
     # user = models.ForeignKey(Form,on_delete=models.CASCADE,primary_key=True)
