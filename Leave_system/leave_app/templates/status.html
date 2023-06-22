@@ -2,58 +2,114 @@
 
 {% block title %}
     <title>status</title>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 {% endblock title %}
 
+{% block style %}
+<style>
+body{    
+    background-image: url('https://cdn.pixabay.com/photo/2023/05/28/09/24/south-tyrol-8023224_1280.jpg');
+    background-size: cover;
+}
+.emp-profile{
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
+    background: #fff; 
+}
+
+.card {
+    width: 240px; 
+    height: 100px;
+    margin: 20px;
+    text-align: center; 
+    padding: 1%;
+    border:3px solid #4682B4;
+    border-radius:20px; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+.container {
+    padding: 5px 36px;
+    text-align: center;
+  }
+  
+.text-center {
+    padding: 30px;
+}
+
+
+</style>
+{% endblock style %}
+
+
+
 {% block content %}
-        <h2 class="text-center">Status </h2>
+
+<div class="container emp-profile">
+    {% if user.is_authenticated %}
+        <h2 class="text-center">สถานะการลา : {{user.username}}</h2>
         <div class="d-flex justify-content-center" >
-            {% for num in all_number %}
-            <div class="m-5">
-                <div class="alert alert-info" role="alert" >
-                    Sick Leave : {{num.sick}}  
-                </div>
+
+    {% endif %}
+
+  
+    {% for num in all_number %}
+        <div class="card ">
+            <div class="container">
+            <h5>Sick Leave</h5>
+            <p>{{num.sick}} วัน </p>
             </div>
-            <div class="m-5">
-                <div class="alert alert-info" role="alert" >
-                    Personal Leave : {{num.personal}}
-                </div>
-            </div>
-            <div class="m-5">
-                <div class="alert alert-info" role="alert">
-                    Vacation Leave : {{num.vacation}}
-                </div>
-            </div>
-            {% endfor %}
         </div>
+        <div class="card">
+            <div class="container">
+            <h5>Personal Leave</h5>
+            <p>{{num.personal}} วัน </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="container">
+            <h5>Vacation Leave</h5>
+            <p>{{num.vacation}} วัน </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Type</th>
-                <th scope="col">From Date</th>
-                <th scope="col">To Date</th>
-                <th scope="col">Numberleave</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for person in all_person %}
-                <tr>
-                  <th scope="row">{{person.username}}</th>
-                  <td>{{person.typeleave}}</td>
-                  <td>{{person.From_Date}}</td>
-                  <td>{{person.To_Date}}</td>
-                  <td>{{person.numberleave}}</td>
-                  {% if person.show == 1 %}
-                      <td style="color:MediumSeaGreen;">ดำเนินการเสร็จสิ้น</td>
-                  {% else %}
-                      <td style="color:Tomato;">รอดำเนินการ</td>
-                  {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-          </table>
-
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Type</th>
+            <th scope="col">From Date</th>
+            <th scope="col">To Date</th>
+            <th scope="col">Numberleave</th>
+            <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in all_person %}
+            <tr>
+                <th scope="row">{{person.typeleave}}</th>
+                <td>{{person.From_Date}}</td>
+                <td>{{person.To_Date}}</td>
+                <td>{{person.numberleave}}</td>
+                {% if person.show == 1 %}
+                    <td style="color:MediumSeaGreen;">ดำเนินการเสร็จสิ้น</td>
+                {% else %}
+                    <td style="color:Tomato;">รอดำเนินการ</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+</div>
    
 {% endblock content %}  

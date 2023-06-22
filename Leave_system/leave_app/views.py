@@ -25,28 +25,26 @@ def info(request):
     return render(request, 'info.html')
 
 def login(request):
-        username=request.POST.get('username')
-        password=request.POST.get('password')
-        #try:
-         #   user = Person.objects.get(username=username , password=password)
-        #except:
-         #   user = None
+    username=request.POST.get('username')
+    password=request.POST.get('password')
+    #try:
+        #   user = Person.objects.get(username=username , password=password)
+    #except:
+        #   user = None
+    user=auth.authenticate(username=username, password=password)
     
-
-        user=auth.authenticate(username=username, password=password)
-        
-        if user is not None:
-            auth.login(request, user)
-            user.position = user.position.upper()
-            if user.position=='HR':
-               return redirect('/hr')
-            elif user.position=='BOSS':
-               return redirect('/leader')
-            else:
-                 return redirect('/info')
+    if user is not None:
+        auth.login(request, user)
+        user.position = user.position.upper()
+        if user.position=='HR':
+            return redirect('/hr')
+        elif user.position=='BOSS':
+            return redirect('/leader')
         else:
-            messages.info(request, 'Username or Password is incorrect')
-            return redirect('/')
+            return redirect('/info')
+    else:
+        messages.info(request, 'Username or Password is incorrect')
+        return redirect('/')
         
 def hr(request):
     return render(request, 'hr.html')
@@ -84,29 +82,18 @@ def addForm(request):
         )
         person.set_password(password)  #แปลงpasswordเป็นการเข้ารหัส
         person.save()
+        number = Number.objects.create(username=person)
+        number.save()
+        
         return render(request, "result.html")
 
     else:
         return render(request, "createForm.html")
-
-# def login(request) :
-#     if request.method == "POST" :
-#         username = request.POST["username"]
-#         password = request.POST["password"]
-#         user = auth.authenticate(username=username , password=password)
-
-#         if user is not None :
-#             auth.login(request,user)
-#             return redirect('/formleave')
-#         else :
-#             messages.success(request,"ไม่สามารถเข้าสู่ระบบได้")
-#             return redirect('/')
-#     #else:
-#     #   form = LoginForm()
-#     return render(request, 'home.html') #, {'form': form})
+    
+def result(request):
+    return render(request, 'result.html')
 
 def formleave(request) :
-
     if request.method == "POST" :
         #รับข้อมูล
         username_id = request.user.id           #ข้อมูลของผู้login
