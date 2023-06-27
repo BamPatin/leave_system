@@ -5,6 +5,11 @@ from django.contrib import messages
 from leave_app.models import Form , Number ,Person
 from django.contrib.auth.models import User,auth
 from django.contrib.auth import authenticate
+from datetime import datetime
+from django.db.models import Sum
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+
 
 
 # Create your views here.
@@ -32,22 +37,29 @@ def login(request):
     #except:
         #   user = None
     user=auth.authenticate(username=username, password=password)
-    
     if user is not None:
         auth.login(request, user)
         user.position = user.position.upper()
         if user.position=='HR':
-            return redirect('/hr')
-        elif user.position=='BOSS':
-            return redirect('/leader')
-        else:
-            return redirect('/info')
+            if user.level == 1 :
+                return redirect('/hr')
+            else :
+                return redirect('/HRleader')
+        else :
+            if user.level == 1 :
+                return redirect('/info')
+            else :
+                return redirect('/leader')
     else:
         messages.info(request, 'Username or Password is incorrect')
         return redirect('/')
-        
+    
+    
 def hr(request):
     return render(request, 'hr.html')
+
+def HRleader(request):
+    return render(request, 'HRleader.html')
 
 def leader(request):
     return render(request, 'leader.html')
@@ -67,6 +79,8 @@ def addForm(request):
         email=request.POST.get('email')
         password=request.POST.get('password')
         leader=request.POST.get('leader')
+        level=request.POST.get('level')
+
 
         person=Person.objects.create(
             username=username,
@@ -78,7 +92,8 @@ def addForm(request):
             position=position,
             email=email,
             password=password,
-            leader=leader
+            leader=leader,
+            level=level
         )
         person.set_password(password)  #แปลงpasswordเป็นการเข้ารหัส
         person.save()
@@ -103,22 +118,42 @@ def formleave(request) :
         To_Date = request.POST["To_Date"]
         reason = request.POST["reason"]
         
+        #check have day leave
         number_instance = Number.objects.filter(username_id=username_id).first()
-
+        
         if typeleave =='S' :
-           if number_instance.sick < int(numberleave) :
+            form_instance = Form.objects.filter(username_id=username_id,show=0,typeleave='S').aggregate(total_sum=Sum('numberleave'))
+            form_sum = form_instance['total_sum'] if form_instance['total_sum'] is not None else 0
+            remain = number_instance.sick - form_sum
+            if remain < int(numberleave) :
                messages.success(request,"วันลาป่วยของคุณไม่เพียงพอ กรุณากรอกฟอร์มขอลาใหม่อีกครั้ง")
                return redirect('/formleave')        
             
         elif typeleave =='P' :
-            if number_instance.personal < int(numberleave) :
+            form_instance = Form.objects.filter(username_id=username_id,show=0,typeleave='P').aggregate(total_sum=Sum('numberleave'))
+            form_sum = form_instance['total_sum'] if form_instance['total_sum'] is not None else 0
+            remain = number_instance.personal - form_sum
+            if remain < int(numberleave) :
                messages.success(request,"วันลากิจของคุณไม่เพียงพอ กรุณากรอกฟอร์มขอลาใหม่อีกครั้ง")
                return redirect('/formleave')      
            
         else :
-            if number_instance.vacation < int(numberleave) :
+            form_instance = Form.objects.filter(username_id=username_id,show=0,typeleave='V').aggregate(total_sum=Sum('numberleave'))
+            form_sum = form_instance['total_sum'] if form_instance['total_sum'] is not None else 0
+            remain = number_instance.vacation - form_sum
+            if remain < int(numberleave) :
                messages.success(request,"วันลาพักร้อนของคุณไม่เพียงพอ กรุณากรอกฟอร์มขอลาใหม่อีกครั้ง")
                return redirect('/formleave')  
+
+        #check number of leave
+        date_format = "%Y-%m-%d"
+        x = datetime.strptime(From_Date, date_format).date()
+        y = datetime.strptime(To_Date, date_format).date()
+        difference = y - x
+        if int(numberleave) != ((difference.days)+1) :
+            messages.success(request,"จำนวนวันลาไม่ถูกต้อง กรุณากรอกฟอร์มขอลาใหม่อีกครั้ง")
+            return redirect('/formleave')  
+        
         
         #บันทึกข้อมูล
         form = Form.objects.create(
@@ -132,30 +167,33 @@ def formleave(request) :
             reason = reason
         )
         form.save()
-        # messages.success(request,"บันทึกข้อมูลเรียบร้อย")
 
         leader = request.user.leader
         person_instance = Person.objects.filter(username=leader).first()
-
         leader_email = person_instance.email
+        
+        name = request.user.username
+        html = render_to_string('emails/contactform.html',{
+            'name':name
+        })
+        
+        send_mail('Hi','Hello', 'patinya590@gmail.com' , [leader_email],html_message=html)
 
         # send email
-        subject = 'Test Email : Leave System'
-        body = '''
-            <p> เรื่อง ขออนุญาติลา </p>
-            .......................
-        '''
-        email = EmailMessage(subject=subject , body=body , to=[leader_email])
-        email.content_subtype = 'html'
-        email.send()
+        # subject = 'Test Email : Leave System'
+        # body = '''
+        #     <p> เรื่อง ขออนุญาติลา </p>
+        #     .......................
+        # '''
+        # email = EmailMessage(subject=subject , body=body , to=[leader_email])
+        # email.content_subtype = 'html'
+        # email.send()
         # messages.success(request,"รอการยืนยัน")
         #เปลี่ยนเส้นทาง
         return redirect('/status')        
     return render(request, 'formleave.html') 
 
 
-    
-        
 def status(request) :
     # if request.method == "POST" :
     username_id = request.user.id 
@@ -183,14 +221,11 @@ def success(request,person_id):
     number_instance = Number.objects.filter(username=form_instance.username).first()
     
     if typeleave_value =='S' :
-        leave_value = number_instance.sick
-        number_instance.sick = leave_value - numberleave_value
+        number_instance.sick -= numberleave_value       
     elif typeleave_value =='P' :
-        leave_value = number_instance.personal
-        number_instance.personal = leave_value - numberleave_value
+        number_instance.personal -= numberleave_value
     else :
-        leave_value = number_instance.vacation
-        number_instance.vacation = leave_value - numberleave_value
+        number_instance.vacation -= numberleave_value
         
     number_instance.save()       
     

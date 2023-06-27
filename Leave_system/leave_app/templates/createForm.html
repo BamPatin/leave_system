@@ -214,16 +214,27 @@ body{
             </div>
         </div>
 
-        <div class="formbold-mb-3">
-            <label for="leader" class="formbold-form-label">
-              Leader
+        <div class="formbold-input-flex">
+          <div >
+              <label for="leader" class="formbold-form-label"> Leader </label>
+              <input
+                type="text"
+                name="leader"
+                id="leader"
+                class="formbold-form-input"
+              />
+          </div>
+          <div>
+            <label for="level" class="formbold-form-label">
+              Level
             </label>
             <input
-              type="text"
-              name="leader"
-              id="leader"
+              type="level"
+              name="level"
+              id="level"
               class="formbold-form-input"
             />
+          </div>
         </div>
 
         <div class="formbold-mb-3">
@@ -237,6 +248,9 @@ body{
               class="formbold-form-input"
             />
           </div>
+
+          
+
   
         <button type="submit" class="formbold-btn">SAVE</button>
       </form>

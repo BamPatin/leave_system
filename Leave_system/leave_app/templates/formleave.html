@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
     <title>Leave system</title>
+    {% comment %} <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/fontawesome/css/all.css' %}" />
 {% endblock title %}
 
 {% block style %}
@@ -213,6 +215,32 @@
   input::placeholder{
     font-size: 14px;
   }
+  .alert{
+    background: #ffdb9b ;
+    padding: 20px 40px ;
+    min-width: 420px ;
+    position: absolute;
+    left: 50% ;
+    transform: translateX(-50%);
+    top: 45px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #ffa502;
+  }
+  .alert .fa-circle-exclamation{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ce8500;
+    font-size: 30px;
+  }
+  .alert .msg{
+    padding: 0px 20px ;
+    font-size: 18px;
+    color: #ce8500;
+  }
+
 
 </style>
 {% endblock style %}
@@ -221,11 +249,16 @@
 {% block content %}
     
     {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-danger" role="alert">
-        <storng>{{message}}</storng>
-        </div>
-    {% endfor %}
+      {% for message in messages %}
+        <div class="alert">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span class="msg"> Warning : {{message}}</span>
+
+            {% comment %} <div class="alert alert-danger" role="alert">
+            <storng>{{message}}</storng>
+            </div> {% endcomment %}
+        </div> 
+      {% endfor %}
     {% endif %}
 
     <div class="formbold-main-wrapper">
