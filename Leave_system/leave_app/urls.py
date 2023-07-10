@@ -18,6 +18,8 @@ urlpatterns = [
     path('result/', views.result),
     path('logout', views.logout),
     path('formleave',views.formleave),
+    path('edit/<person_id>',views.edit), ##(ชื่อpath/<ชื่อพารามิเตอร์>,กระบวนการทำงาน)
+    path('delete/<person_id>',views.delete),
     path('status',views.status),
     path('approve',views.approve),
     path('success/<person_id>',views.success),

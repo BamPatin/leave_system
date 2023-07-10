@@ -44,14 +44,47 @@ body{
 .text-center {
     padding: 30px;
 }
-
+.alert{
+    background: #d0f8ce	 ;
+    padding: 20px 40px ;
+    min-width: 420px ;
+    position: absolute;
+    z-index: 9999;
+    left: 50% ;
+    transform: translateX(-50%);
+    top: 45px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #2baf2b;
+  }
+  .alert .fa-circle-exclamation{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2baf2b;
+    font-size: 30px;
+  }
+  .alert .msg{
+    padding: 0px 20px ;
+    font-size: 18px;
+    color: #056f00;
+  }
 
 </style>
 {% endblock style %}
 
 
-
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+  <div class="alert">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <span class="msg"> {{message}}</span>
+  </div> 
+{% endfor %}
+{% endif %}
 
 <div class="container emp-profile">
     {% if user.is_authenticated %}
@@ -87,25 +120,39 @@ body{
     <table class="table">
         <thead>
             <tr>
+            <th scope="col">ID</th>               
             <th scope="col">Type</th>
             <th scope="col">From Date</th>
             <th scope="col">To Date</th>
             <th scope="col">Numberleave</th>
             <th scope="col">Status</th>
+            <th scope="col">Edit</th>   
+            <th scope="col">Cancel</th>
             </tr>
         </thead>
         <tbody>
             {% for person in all_person %}
             <tr>
-                <th scope="row">{{person.typeleave}}</th>
+                <th scope="row" id="personIdCell">LEAVE{{person.id}}</th>
+                <td>{{person.typeleave}}</td>
                 <td>{{person.From_Date}}</td>
                 <td>{{person.To_Date}}</td>
                 <td>{{person.numberleave}}</td>
                 {% if person.show == 1 %}
                     <td style="color:MediumSeaGreen;">ดำเนินการเสร็จสิ้น</td>
+                    <td> - </td>
+                    <td> - </td>
+
                 {% else %}
                     <td style="color:Tomato;">รอดำเนินการ</td>
+                    <td > <a href='edit/{{person.id}}' class="btn btn-warning">แก้ไข</a> </td>
+                    <td > 
+                      <a href='delete/{{person.id}}' 
+                      class="btn btn-danger"
+                      onclick="return confirm('คุณต้องการยกเลิกฟอร์มการลานี้หรือไม่?')">ยกเลิก</a> 
+                    </td>
                 {% endif %}
+
             </tr>
             {% endfor %}
         </tbody>
@@ -113,3 +160,22 @@ body{
 </div>
    
 {% endblock content %}  
+
+{% block script %}  
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var alerts = document.getElementsByClassName('alert');
+        Array.prototype.forEach.call(alerts, function(alert) {
+        setTimeout(function() {
+            alert.style.display = 'none';
+        }, 5000);
+        });
+    });
+
+    var cell = document.getElementById('personIdCell');
+    var value = cell.textContent;
+    var paddedValue = value.toString().padStart(6, '0');
+    cell.textContent = paddedValue;
+
+</script>
+{% endblock script %}  

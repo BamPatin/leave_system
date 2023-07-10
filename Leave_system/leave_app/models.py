@@ -19,7 +19,7 @@ class Person(AbstractUser):
     team = models.CharField(max_length=100,null=True) 
     position = models.CharField(max_length=100,null=True) 
     leader = models.CharField(max_length=100,null=True) 
-    level = models.IntegerField(default=1)   #ลาพักร้อน
+    level = models.CharField(max_length=1,null=True)   #ลาพักร้อน
 
     def __str__(self):
         return str(self.username)

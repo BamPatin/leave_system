@@ -278,16 +278,15 @@
       {% for message in messages %}
         <div class="alert">
           <i class="fa-solid fa-circle-exclamation"></i>
-          <span class="msg"> Warning : {{message}}</span>
-
+          <span class="msg"> {{message}}</span>
         </div> 
       {% endfor %}
     {% endif %}
-
+    
     <div class="formbold-main-wrapper">
         <div class="formbold-form-wrapper">
           <img src="https://img.freepik.com/premium-vector/vector-illustration-girl-online-assistant-work-promotion-network-manager-remote-job-business-mechanism-abstract-background-with-gears-business-promotion-strategy-analysis_419010-596.jpg?w=2000">
-          <form action="formleave" method="post" id="register_form">
+          <form method="post" id="register_form">
             {% csrf_token %}
             <div class="formbold-form-title">
               <h2>Leave Form</h2>
@@ -296,20 +295,20 @@
             <div class="formbold-mb-3">
               <select name="typeleave" class="form-control mb-3" aria-label="Default select example">
                 <option selected>Open the select type</option>
-                <option value="S">Sick Leave</option>
-                <option value="P">Personal Leave</option>
-                <option value="V">Vacation Leave</option>
+                <option value="S" {% if form.typeleave == 'S' %}selected{% endif %}>Sick Leave</option>
+                <option value="P" {% if form.typeleave == 'P' %}selected{% endif %}>Personal Leave</option>
+                <option value="V" {% if form.typeleave == 'V' %}selected{% endif %}>Vacation Leave</option>
               </select>
             </div>
 
             <div class="formbold-input-flex ">
               <div class="leaveDate">
                 <label for="From_Date" >From </label>
-                <input type="text" id="datepicker_1" name="From_Date" required onchange="calculateLeaveDays()" />
+                <input type="text" id="datepicker_1" name="From_Date" value="{{form.From_Date|date:'d b Y'}}" required onchange="calculateLeaveDays()" />
               </div>
               <div class="leaveDate">
                 <label for="To_Date">To</label>
-                <input type="text" id="datepicker_2" name="To_Date" required onchange="calculateLeaveDays()" disabled  />
+                <input type="text" id="datepicker_2" name="To_Date" value="{{form.To_Date|date:'d b Y'}}" required onchange="calculateLeaveDays()"  />
               </div>
             </div>
 
@@ -322,7 +321,8 @@
                 name="numberleave"
                 id="numberLeave"
                 class="formbold-form-input"
-                placeholder="Number of Leave Day" disabled
+                placeholder="Number of Leave Day" 
+                value="{{form.numberleave}}"
               />
             </div>
 
@@ -336,11 +336,12 @@
                   id="reason"
                   class="formbold-form-input"
                   placeholder="Reason"
+                  value="{{form.reason}}"
                 />
             </div>
 
             <input type="submit" value="submit" class="formbold-btn1">
-            <a href='status' class="formbold-btn2">status</a>
+            <a href='/status' class="formbold-btn2">status</a>
 
           </form>
         </div>
@@ -407,70 +408,20 @@
     });
   });
 
-
-  // เพิ่ม event listener ให้กับฟิลด์ From_Date เมื่อมีการเลือกวันที่
-  $('#datepicker_1').on('change', function() {
-    var fromDate = new Date($('#datepicker_1').val());
-    $('#datepicker_2').datepicker('setDate', fromDate);
-    enableNumberLeave();
-    calculateLeaveDays();
-
-  });
-
-  // เพิ่ม event listener ให้กับฟิลด์ To_Date เมื่อมีการเลือกวันที่
-  $('#datepicker_2').on('change', function() {
-    calculateLeaveDays();
-  });
-
   // เพิ่ม event listener ให้กับฟิลด์ NumberLeave เมื่อมีการเลือกวันที่
   $('#numberLeave').on('change', function() {
     calculateDays();
   });
 
-  function enableNumberLeave() {
-    $('#numberLeave').prop('disabled', false);
-    $('#datepicker_2').prop('disabled', false);
+  // เพิ่ม event listener ให้กับฟิลด์ From_Date เมื่อมีการเลือกวันที่
+  $('#datepicker_1').on('change', function() {
+    calculatenum();
+  });
 
-  }
-  
-  function calculateLeaveDays() {
-    var fromDate = new Date($('#datepicker_1').val());
-    var toDate = new Date($('#datepicker_2').val());
-
-    if (fromDate && toDate) {
-      var millisecondsPerDay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
-      var diff = Math.round(((toDate - fromDate) / millisecondsPerDay)+1); // คำนวณจำนวนวันที่ผ่านไป
-
-      var weekends = 0;
-      var holidays = 0;
-  
-      for (var i = 0; i < diff; i++) {
-        var currentDate = new Date(fromDate.getTime() + i * millisecondsPerDay);
-        var dayOfWeek = currentDate.getDay();
-  
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-          weekends++;
-        }
-  
-        for (var j = 0; j < holiday.length; j++) {
-          var holidayDate = new Date(holiday[j]);
-  
-          if (
-            holidayDate.getDate() === currentDate.getDate() &&
-            holidayDate.getMonth() === currentDate.getMonth() &&
-            holidayDate.getFullYear() === currentDate.getFullYear()
-          ) {
-            holidays++;
-            break;
-          }
-        }
-      }
-      var adjustedDiff = diff - weekends - holidays;
-
-      $('#numberLeave').val(adjustedDiff); // แสดงผลลัพธ์ที่ปรับแล้วในฟิลด์ numberLeave
-    }
-  }
-
+  // เพิ่ม event listener ให้กับฟิลด์ To_Date เมื่อมีการเลือกวันที่
+  $('#datepicker_2').on('change', function() {
+    calculatenum();
+  });
 
   function calculateDays() {
     var fromDate = new Date($('#datepicker_1').val());
@@ -511,6 +462,44 @@
     }
   }
 
+
+  function calculatenum() {
+    var fromDate = new Date($('#datepicker_1').val());
+    var toDate = new Date($('#datepicker_2').val());
+
+    if (fromDate && toDate) {
+      var millisecondsPerDay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
+      var diff = Math.round(((toDate - fromDate) / millisecondsPerDay)+1); // คำนวณจำนวนวันที่ผ่านไป
+
+      var weekends = 0;
+      var holidays = 0;
+  
+      for (var i = 0; i < diff; i++) {
+        var currentDate = new Date(fromDate.getTime() + i * millisecondsPerDay);
+        var dayOfWeek = currentDate.getDay();
+  
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+          weekends++;
+        }
+  
+        for (var j = 0; j < holiday.length; j++) {
+          var holidayDate = new Date(holiday[j]);
+  
+          if (
+            holidayDate.getDate() === currentDate.getDate() &&
+            holidayDate.getMonth() === currentDate.getMonth() &&
+            holidayDate.getFullYear() === currentDate.getFullYear()
+          ) {
+            holidays++;
+            break;
+          }
+        }
+      }
+      var adjustedDiff = diff - weekends - holidays;
+
+      $('#numberLeave').val(adjustedDiff); // แสดงผลลัพธ์ที่ปรับแล้วในฟิลด์ numberLeave
+    }
+  }
 </script>
 
 {% endblock %}
