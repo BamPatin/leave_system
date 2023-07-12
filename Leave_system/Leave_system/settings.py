@@ -146,3 +146,5 @@ EMAIL_HOST = 'smtp.gmail.com'   # mail server
 EMAIL_PORT = 587                # port gmail
 EMAIL_HOST_USER = 'patinya590@gmail.com'
 EMAIL_HOST_PASSWORD = 'pktjksqvowlzmufg'
+
+SESSION_COOKIE_AGE = 60 * 60 

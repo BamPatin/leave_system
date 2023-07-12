@@ -12,8 +12,24 @@ from django.core.mail import send_mail
 
 
 # Create your views here.
+# @decorator
 def home(request) :
     return render(request,"home.html")
+
+def login(request):
+    username=request.POST.get('username')
+    password=request.POST.get('password')
+    #try:
+        #   user = Person.objects.get(username=username , password=password)
+    #except:
+        #   user = None
+    user=auth.authenticate(username=username, password=password)
+    if user is not None:
+        auth.login(request, user)
+        return redirect('/info')
+    else:
+        messages.info(request, 'Username or Password is incorrect')
+        return redirect('/')
 
 def info(request):
     try:
@@ -27,41 +43,6 @@ def info(request):
     }
 
     return render(request, 'info.html')
-
-def login(request):
-    username=request.POST.get('username')
-    password=request.POST.get('password')
-    #try:
-        #   user = Person.objects.get(username=username , password=password)
-    #except:
-        #   user = None
-    user=auth.authenticate(username=username, password=password)
-    if user is not None:
-        auth.login(request, user)
-        user.position = user.position.upper()
-        if user.position=='HR':
-            if user.level == 1 :
-                return redirect('/hr')
-            else :
-                return redirect('/HRleader')
-        else :
-            if user.level == 1 :
-                return redirect('/info')
-            else :
-                return redirect('/leader')
-    else:
-        messages.info(request, 'Username or Password is incorrect')
-        return redirect('/')
-    
-    
-def hr(request):
-    return render(request, 'hr.html')
-
-def HRleader(request):
-    return render(request, 'HRleader.html')
-
-def leader(request):
-    return render(request, 'leader.html')
 
 def createForm(request):
     return render(request, 'createForm.html')
@@ -312,7 +293,8 @@ def edit(request,person_id) :
 def delete(request,person_id) :
     form = Form.objects.get(pk=person_id)    
     form.delete()
-    messages.success(request,"ยกเลิกฟอร์มการลานี้เรียบร้อย")
+    print('*********************************')
+    messages.success(request,"ยกเลิกฟอร์มการลาเรียบร้อย")
     return redirect("/status")
 
 
@@ -391,7 +373,6 @@ def success(request,person_id):
     
     send_mail('เรื่อง แจ้งผลอนุมัติการลา ','Hello', 'patinya590@gmail.com' , [person_email],html_message=html)
     return redirect('/approve')  
-
 
 
 def unsuccess(request,person_id) :

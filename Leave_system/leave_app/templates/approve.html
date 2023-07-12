@@ -1,33 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     <title>Approve Leave</title>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/approve.css' %}">
 {% endblock title %}
 
-{% block style %}
-<style>
-body{    
-    background-image: url('https://cdn.pixabay.com/photo/2023/05/28/09/24/south-tyrol-8023224_1280.jpg');
-    background-size: cover;
-}
-.emp-profile{
-    padding: 2%;
-    margin-top: 6.5%;
-    margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: #fff; 
-}
-.text-center {
-    padding: 20px;
-}
-.container {
-    padding: 5px 36px;
-    text-align: center;
-}
-</style>   
-{% endblock style %}
     
 {% block content %}
 

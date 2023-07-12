@@ -1,78 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     <title>status</title>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    {% comment %} <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> {% endcomment %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% comment %} <script src="{% static 'js/status.js' %}" ></script> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/status.css' %}">
 
 {% endblock title %}
-
-{% block style %}
-<style>
-body{    
-    background-image: url('https://cdn.pixabay.com/photo/2023/05/28/09/24/south-tyrol-8023224_1280.jpg');
-    background-size: cover;
-}
-.emp-profile{
-    padding: 3%;
-    margin-top: 6.5%;
-    margin-bottom: 3%;
-    border-radius: 0.5rem;
-    background: #fff; 
-}
-
-.card {
-    width: 240px; 
-    height: 100px;
-    margin: 20px;
-    text-align: center; 
-    padding: 1%;
-    border:3px solid #4682B4;
-    border-radius:20px; 
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-  }
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-  
-.container {
-    padding: 5px 36px;
-    text-align: center;
-  }
-  
-.text-center {
-    padding: 30px;
-}
-.alert{
-    background: #d0f8ce	 ;
-    padding: 20px 40px ;
-    min-width: 420px ;
-    position: absolute;
-    z-index: 9999;
-    left: 50% ;
-    transform: translateX(-50%);
-    top: 45px;
-    overflow: hidden;
-    border-radius: 4px;
-    border-left: 8px solid #2baf2b;
-  }
-  .alert .fa-circle-exclamation{
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #2baf2b;
-    font-size: 30px;
-  }
-  .alert .msg{
-    padding: 0px 20px ;
-    font-size: 18px;
-    color: #056f00;
-  }
-
-</style>
-{% endblock style %}
 
 
 {% block content %}
@@ -146,10 +83,11 @@ body{
                 {% else %}
                     <td style="color:Tomato;">รอดำเนินการ</td>
                     <td > <a href='edit/{{person.id}}' class="btn btn-warning">แก้ไข</a> </td>
-                    <td > 
-                      <a href='delete/{{person.id}}' 
+                    <td > <button class="btn btn-danger" id="cancelAlert" data-id={{person.id}}>ยกเลิก</button>
+
+                      {% comment %} <a href='delete/{{person.id}}' 
                       class="btn btn-danger"
-                      onclick="return confirm('คุณต้องการยกเลิกฟอร์มการลานี้หรือไม่?')">ยกเลิก</a> 
+                      onclick="return confirm('คุณต้องการยกเลิกฟอร์มการลานี้หรือไม่?')">ยกเลิก</a>  {% endcomment %}
                     </td>
                 {% endif %}
 
@@ -157,25 +95,42 @@ body{
             {% endfor %}
         </tbody>
         </table>
+    </div>
 </div>
    
 {% endblock content %}  
 
 {% block script %}  
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var alerts = document.getElementsByClassName('alert');
-        Array.prototype.forEach.call(alerts, function(alert) {
-        setTimeout(function() {
-            alert.style.display = 'none';
-        }, 5000);
-        });
+  document.getElementById('cancelAlert').addEventListener('click', function () {
+    var personId = this.getAttribute('data-id');
+    Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Are you sure you want to delete this form ?',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonText: 'Yes, Delete it !',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // ปุ่มลบข้อมูลถูกคลิก
+          // สามารถเพิ่มโค้ดเพื่อดำเนินการลบข้อมูลได้
+          fetch('/delete/' + personId)   
+          Swal.fire('Saved!', '', 'success')
+          document.location.href='/status'
+
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // ปุ่ม Cancel ถูกคลิก
+          // สามารถเพิ่มโค้ดเพื่อดำเนินการเมื่อปุ่ม Cancel ถูกคลิกได้
+        }
+      });
     });
 
-    var cell = document.getElementById('personIdCell');
-    var value = cell.textContent;
-    var paddedValue = value.toString().padStart(6, '0');
-    cell.textContent = paddedValue;
-
 </script>
-{% endblock script %}  
+
+{% endblock %}
+{% comment %} {% block script %}  
+<script src="{% static 'js/formleave.js' %}" ></script>
+
+{% endblock %} {% endcomment %}
