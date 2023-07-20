@@ -3,18 +3,19 @@
 
 {% block title %}
     <title>Approve Leave</title>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    {% comment %} <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> {% endcomment %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{% static 'css/approve.css' %}">
 {% endblock title %}
 
     
 {% block content %}
 
-<div class="container emp-profile">
+<div class="emp-profile">
     <h2 class="text-center">คำขออนุมัติการลา</h2>
-    <div class="container">
 
+    <div class="container">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -37,8 +38,9 @@
                 <td>{{person.To_Date}}</td>
                 <td>{{person.numberleave}}</td>
                 <td>{{person.reason}}</td>
-                <td><a href='success/{{person.id}}' class="btn btn-success" >Approve</a></td>
-                <td><a href='unsuccess/{{person.id}}'  class="btn btn-warning" >Decline</a></td>
+                <td><button class="btn btn-success successAlert"  data-id={{person.id}}>Approve</button></td>
+                <td><button class="btn btn-warning DeclineAlert" data-id={{person.id}}>Decline</button></td>
+
             </tr>
             {% endfor %}
             </tbody>
@@ -50,3 +52,10 @@
 
    
 {% endblock content %}  
+
+
+{% block script %}  
+
+     <script src="{% static 'js/approve.js' %}" ></script>  
+
+{% endblock script %}

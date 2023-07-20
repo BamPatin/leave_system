@@ -6,131 +6,79 @@
     {% comment %} <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> {% endcomment %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {% comment %} <script src="{% static 'js/status.js' %}" ></script> {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/status.css' %}">
-
 {% endblock title %}
 
 
 {% block content %}
-
-{% if messages %}
-{% for message in messages %}
-  <div class="alert">
-    <i class="fa-solid fa-circle-exclamation"></i>
-    <span class="msg"> {{message}}</span>
-  </div> 
-{% endfor %}
-{% endif %}
-
-<div class="container emp-profile">
-    {% if user.is_authenticated %}
-        <h2 class="text-center">สถานะการลา : {{user.username}}</h2>
-        <div class="d-flex justify-content-center" >
-
-    {% endif %}
-
-  
-    {% for num in all_number %}
-        <div class="card ">
-            <div class="container">
-            <h5>Sick Leave</h5>
-            <p>{{num.sick}} วัน </p>
+    <div class="emp-profile">
+        {% if user.is_authenticated %}
+            <div class="headname" >
+                <h2 >สถานะการลา : {{user.username}}</h2>
             </div>
-        </div>
-        <div class="card">
-            <div class="container">
-            <h5>Personal Leave</h5>
-            <p>{{num.personal}} วัน </p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="container">
-            <h5>Vacation Leave</h5>
-            <p>{{num.vacation}} วัน </p>
-            </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endif %}
 
-<div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-            <th scope="col">ID</th>               
-            <th scope="col">Type</th>
-            <th scope="col">From Date</th>
-            <th scope="col">To Date</th>
-            <th scope="col">Numberleave</th>
-            <th scope="col">Status</th>
-            <th scope="col">Edit</th>   
-            <th scope="col">Cancel</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for person in all_person %}
-            <tr>
-                <th scope="row" id="personIdCell">LEAVE{{person.id}}</th>
-                <td>{{person.typeleave}}</td>
-                <td>{{person.From_Date}}</td>
-                <td>{{person.To_Date}}</td>
-                <td>{{person.numberleave}}</td>
-                {% if person.show == 1 %}
-                    <td style="color:MediumSeaGreen;">ดำเนินการเสร็จสิ้น</td>
-                    <td> - </td>
-                    <td> - </td>
+        <div class="allcard" >
+            {% for num in all_number %}
+                <div class="card ">
+                    <div class="card-text"><h5>Sick Leave</h5></div>
+                    <div class="card-num"><p>{{num.sick}} วัน </p></div>
+                </div>
+                <div class="card">
+                    <div class="card-text"><h5>Personal Leave</h5></div>
+                    <div class="card-num"><p>{{num.personal}} วัน </p></div>
+                </div>
+                <div class="card">
+                    <div class="card-text"><h5>Vacation Leave</h5></div>
+                    <div class="card-num"><p>{{num.vacation}} วัน </p></div>
+                </div>
 
-                {% else %}
-                    <td style="color:Tomato;">รอดำเนินการ</td>
-                    <td > <a href='edit/{{person.id}}' class="btn btn-warning">แก้ไข</a> </td>
-                    <td > <button class="btn btn-danger" id="cancelAlert" data-id={{person.id}}>ยกเลิก</button>
-
-                      {% comment %} <a href='delete/{{person.id}}' 
-                      class="btn btn-danger"
-                      onclick="return confirm('คุณต้องการยกเลิกฟอร์มการลานี้หรือไม่?')">ยกเลิก</a>  {% endcomment %}
-                    </td>
-                {% endif %}
-
-            </tr>
             {% endfor %}
-        </tbody>
-        </table>
-    </div>
-</div>
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">ID</th>               
+                    <th scope="col">Type</th>
+                    <th scope="col">From Date</th>
+                    <th scope="col">To Date</th>
+                    <th scope="col">Numberleave</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>   
+                    <th scope="col">Cancel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in all_person %}
+                    <tr>
+                        <th scope="row" id="personIdCell">LEAVE{{person.id}}</th>  
+                        <td>{{person.typeleave}}</td>
+                        <td>{{person.From_Date}}</td>
+                        <td>{{person.To_Date}}</td>
+                        <td>{{person.numberleave}}</td>
+                        {% if person.show == 1 %}
+                            <td style="color:MediumSeaGreen;">ดำเนินการเสร็จสิ้น</td>
+                            <td> - </td>
+                            <td> - </td>
+
+                        {% else %}
+                            <td style="color:Tomato;">รอดำเนินการ</td>
+                            <td > <a href='edit/{{person.id}}' class="btn1">แก้ไข</a> </td>
+                            <td > <button class="btn2 cancelAlert" data-id={{person.id}}>ยกเลิก</button></td>
    
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+        </div>
+    </div>
 {% endblock content %}  
 
 {% block script %}  
 
-<script>
-  document.getElementById('cancelAlert').addEventListener('click', function () {
-    var personId = this.getAttribute('data-id');
-    Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Are you sure you want to delete this form ?',
-        showCancelButton: true,
-        cancelButtonText: 'No',
-        confirmButtonText: 'Yes, Delete it !',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // ปุ่มลบข้อมูลถูกคลิก
-          // สามารถเพิ่มโค้ดเพื่อดำเนินการลบข้อมูลได้
-          fetch('/delete/' + personId)   
-          Swal.fire('Saved!', '', 'success')
-          document.location.href='/status'
+    <script src="{% static 'js/status.js' %}" ></script> 
 
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          // ปุ่ม Cancel ถูกคลิก
-          // สามารถเพิ่มโค้ดเพื่อดำเนินการเมื่อปุ่ม Cancel ถูกคลิกได้
-        }
-      });
-    });
-
-</script>
-
-{% endblock %}
-{% comment %} {% block script %}  
-<script src="{% static 'js/formleave.js' %}" ></script>
-
-{% endblock %} {% endcomment %}
+{% endblock script %}

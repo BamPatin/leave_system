@@ -1,4 +1,3 @@
-
 var yyyy = new Date().getFullYear();
 // var tommorrow = new Date().getDate() + 1;
 var holiday = [
@@ -44,6 +43,15 @@ var formattedHoliday = holiday.map(function(timestamp) {
     });
     console.log(formattedHoliday);
 
+document.addEventListener('DOMContentLoaded', function() {
+  var alerts = document.getElementsByClassName('alert');
+  Array.prototype.forEach.call(alerts, function(alert) {
+  setTimeout(function() {
+      alert.style.display = 'none';
+  }, 5000);
+  });
+});
+
 
 // เพิ่ม event listener ให้กับฟิลด์ From_Date เมื่อมีการเลือกวันที่
 $('#datepicker_1').on('change', function() {
@@ -51,6 +59,7 @@ $('#datepicker_1').on('change', function() {
   $('#datepicker_2').datepicker('setDate', fromDate);
   enableNumberLeave();
   calculateLeaveDays();
+
 });
 
 // เพิ่ม event listener ให้กับฟิลด์ To_Date เมื่อมีการเลือกวันที่
@@ -58,91 +67,91 @@ $('#datepicker_2').on('change', function() {
   calculateLeaveDays();
 });
 
-  // เพิ่ม event listener ให้กับฟิลด์ NumberLeave เมื่อมีการเลือกวันที่
-  $('#numberLeave').on('change', function() {
-    calculateDays();
-  });
+// เพิ่ม event listener ให้กับฟิลด์ NumberLeave เมื่อมีการเลือกวันที่
+$('#numberLeave').on('change', function() {
+  calculateDays();
+});
 
-  function enableNumberLeave() {
-    $('#numberLeave').prop('disabled', false);
-    $('#datepicker_2').prop('disabled', false);
+function enableNumberLeave() {
+  $('#numberLeave').prop('disabled', false);
+  $('#datepicker_2').prop('disabled', false);
 
-  }
-  
-  function calculateLeaveDays() {
-    var fromDate = new Date($('#datepicker_1').val());
-    var toDate = new Date($('#datepicker_2').val());
+}
 
-    if (fromDate && toDate) {
-      var millisecondsPerDay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
-      var diff = Math.round(((toDate - fromDate) / millisecondsPerDay)+1); // คำนวณจำนวนวันที่ผ่านไป
+function calculateLeaveDays() {
+  var fromDate = new Date($('#datepicker_1').val());
+  var toDate = new Date($('#datepicker_2').val());
 
-      var weekends = 0;
-      var holidays = 0;
-  
-      for (var i = 0; i < diff; i++) {
-        var currentDate = new Date(fromDate.getTime() + i * millisecondsPerDay);
-        var dayOfWeek = currentDate.getDay();
-  
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-          weekends++;
-        }
-  
-        for (var j = 0; j < holiday.length; j++) {
-          var holidayDate = new Date(holiday[j]);
-  
-          if (
-            holidayDate.getDate() === currentDate.getDate() &&
-            holidayDate.getMonth() === currentDate.getMonth() &&
-            holidayDate.getFullYear() === currentDate.getFullYear()
-          ) {
-            holidays++;
-            break;
-          }
+  if (fromDate && toDate) {
+    var millisecondsPerDay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
+    var diff = Math.round(((toDate - fromDate) / millisecondsPerDay)+1); // คำนวณจำนวนวันที่ผ่านไป
+
+    var weekends = 0;
+    var holidays = 0;
+
+    for (var i = 0; i < diff; i++) {
+      var currentDate = new Date(fromDate.getTime() + i * millisecondsPerDay);
+      var dayOfWeek = currentDate.getDay();
+
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        weekends++;
+      }
+
+      for (var j = 0; j < holiday.length; j++) {
+        var holidayDate = new Date(holiday[j]);
+
+        if (
+          holidayDate.getDate() === currentDate.getDate() &&
+          holidayDate.getMonth() === currentDate.getMonth() &&
+          holidayDate.getFullYear() === currentDate.getFullYear()
+        ) {
+          holidays++;
+          break;
         }
       }
-      var adjustedDiff = diff - weekends - holidays;
-
-      $('#numberLeave').val(adjustedDiff); // แสดงผลลัพธ์ที่ปรับแล้วในฟิลด์ numberLeave
     }
+    var adjustedDiff = diff - weekends - holidays;
+
+    $('#numberLeave').val(adjustedDiff); // แสดงผลลัพธ์ที่ปรับแล้วในฟิลด์ numberLeave
   }
+}
 
 
-  function calculateDays() {
-    var fromDate = new Date($('#datepicker_1').val());
-    var numberLeave = parseInt($('#numberLeave').val());
-  
-    if (fromDate && numberLeave) {
-      var millisecondsPerDay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
-      var num = numberLeave 
-      var toDate = new Date(fromDate.getTime())
+function calculateDays() {
+  var fromDate = new Date($('#datepicker_1').val());
+  var numberLeave = parseInt($('#numberLeave').val());
 
-      // ตรวจสอบวันลาแต่ละวัน
-      while (num > 1) {
-        toDate.setDate(toDate.getDate() + 1)
-        var dayOfWeek = toDate.getDay();
+  if (fromDate && numberLeave) {
+    var millisecondsPerDay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
+    var num = numberLeave 
+    var toDate = new Date(fromDate.getTime())
 
-        //เช็คว่าเป็นวันเสาร์หรืออาทิตย์
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
+    // ตรวจสอบวันลาแต่ละวัน
+    while (num > 1) {
+      toDate.setDate(toDate.getDate() + 1)
+      var dayOfWeek = toDate.getDay();
+
+      //เช็คว่าเป็นวันเสาร์หรืออาทิตย์
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        num++;
+      }
+
+      //เช็คว่าเป็นวันหยุด
+      for (var j = 0; j < holiday.length; j++) {
+        var holidayDate = new Date(holiday[j]);
+        if (
+          holidayDate.getDate() === toDate.getDate() &&
+          holidayDate.getMonth() === toDate.getMonth() &&
+          holidayDate.getFullYear() === toDate.getFullYear()
+        ) {
           num++;
+          break;
         }
-
-        //เช็คว่าเป็นวันหยุด
-        for (var j = 0; j < holiday.length; j++) {
-          var holidayDate = new Date(holiday[j]);
-          if (
-            holidayDate.getDate() === toDate.getDate() &&
-            holidayDate.getMonth() === toDate.getMonth() &&
-            holidayDate.getFullYear() === toDate.getFullYear()
-          ) {
-            num++;
-            break;
-          }
-        }
-        num--;
       }
-
-      toDate.setDate(toDate.getDate());
-      $('#datepicker_2').datepicker('setDate', toDate);
+      num--;
     }
+
+    toDate.setDate(toDate.getDate());
+    $('#datepicker_2').datepicker('setDate', toDate);
   }
+}

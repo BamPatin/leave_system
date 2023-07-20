@@ -14,9 +14,8 @@ function checkInput() {
 
   if (hasError) {
     Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
+      icon: 'warning',
+      text: 'กรุณากรอกข้อมูลให้ครบทุกช่อง',
       });
     return false; // หยุดการส่งฟอร์มหากมีข้อผิดพลาด
   }

@@ -9,6 +9,8 @@ from datetime import datetime
 from django.db.models import Sum ,Q
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -31,12 +33,14 @@ def login(request):
         messages.info(request, 'Username or Password is incorrect')
         return redirect('/')
 
+@login_required(login_url='/')
 def info(request):
     try:
-        person=Person.objects.get(username=request.username)
+        username=request.user.username 
+        person=Person.objects.get(username)
     except Exception as e:
         person = None
-        print('Exception : ', e)
+        # print('Exception : ', e)
 
     context = {
         'person': person,
@@ -44,10 +48,11 @@ def info(request):
 
     return render(request, 'info.html')
 
+@login_required(login_url='/')
 def createForm(request):
     return render(request, 'createForm.html')
 
-
+@login_required(login_url='/')
 def addForm(request):
     if request.method == "POST":
         # รับข้อมูลจากฟอร์ม
@@ -65,7 +70,6 @@ def addForm(request):
 
         # ตรวจสอบข้อมูลที่รับมาจากฟอร์ม
         if not username:
-            messages.error(request, "กรุณากรอกชื่อผู้ใช้งาน")
             return render(request, "createForm.html", {
                 'username': username, 'first_name': first_name, 'last_name': last_name,
                 'nickname': nickname, 'tel': tel, 'team': team, 'position': position,
@@ -94,10 +98,13 @@ def addForm(request):
         return render(request, "result.html")
     else:
         return render(request, "createForm.html")
-    
+
+
+@login_required(login_url='/')
 def result(request):
     return render(request, 'result.html')
 
+@login_required(login_url='/')
 def formleave(request) :
     if request.method == "POST" :
         #รับข้อมูล
@@ -197,7 +204,7 @@ def formleave(request) :
         return redirect('/status')        
     return render(request, 'formleave.html') 
 
-
+@login_required(login_url='/')
 def edit(request,person_id) :
     if request.method == "POST" :
     #เมื่อมีการส่งข้อมูลมา
@@ -290,31 +297,36 @@ def edit(request,person_id) :
         form = Form.objects.get(pk=person_id)
         return render(request,"edit.html",{"form":form})
 
+
 def delete(request,person_id) :
     form = Form.objects.get(pk=person_id)    
     form.delete()
     print('*********************************')
-    messages.success(request,"ยกเลิกฟอร์มการลาเรียบร้อย")
     return redirect("/status")
 
 
-
+@login_required(login_url='/')
 def status(request) :
     # if request.method == "POST" :
     username_id = request.user.id 
-    all_person = Form.objects.filter(username_id=username_id).order_by('From_Date')
+    all_person = Form.objects.filter(username_id=username_id).order_by('id')
     all_number = Number.objects.filter(username_id=username_id) 
-    return render(request,"status.html",{"all_person":all_person , "all_number":all_number})
+    for i in all_person :
+        zero_id = 4 - len(str(i.id))
+        zero = '0'* zero_id + str(i.id)
+        i.id = zero
+    return render(request,"status.html",{"all_person":all_person , "all_number":all_number })
 
-   
+
+@login_required(login_url='/')  
 def approve(request) :
     username = request.user.username
     allow = Form.objects.filter(username__leader=username,show=0).order_by('From_Date')
     return render(request,"approve.html",{"allow":allow})
 
 
+
 def success(request,person_id):
-    
     leader_frist = request.user.first_name
     leader_last = request.user.last_name
     
@@ -431,6 +443,7 @@ def unsuccess(request,person_id) :
     
     send_mail('เรื่อง แจ้งผลอนุมัติการลา ','Hello', 'patinya590@gmail.com' , [person_email],html_message=html)
     return redirect('/approve')  
+
 
 def logout(request):
     auth.logout(request)

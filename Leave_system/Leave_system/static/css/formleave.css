@@ -1,10 +1,10 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Inter', sans-serif;
   background-image: url('https://cdn.pixabay.com/photo/2023/05/28/09/24/south-tyrol-8023224_1280.jpg');
@@ -18,22 +18,26 @@ body {
   border-radius: 0.5rem;
   background: #fff;
   }
+  
 img{
-  width: 50%;
-  position: relative;
-  left: 13%;
-  margin-top: -8%;
-  margin-left: 12%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
 }
+
 .formbold-mb-3 {
   margin-bottom: 15px;
 }
+
 .formbold-relative {
   position: relative;
 }
+
 .formbold-opacity-0 {
   opacity: 0;
 }
+
 .formbold-stroke-current {
   stroke: currentColor;
 }
@@ -55,30 +59,29 @@ img{
 
 .formbold-form-title {
   margin-bottom: 30px;
-}
-
-h2{
   font-weight: 600;
   font-size: 28px;
   line-height: 34px;
   color: #07074d;
   text-align: center;
-  margin-top: -5px;
+  margin-top : 0;
 }
+
+
+
 .formbold-input-flex {
   display: flex;
   gap: 75px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #536387;
 }
 
-.formbold-input-flex > div {
-  width: 50%;
-}
+
 
 .formbold-form-input {
   text-align: left;
   width: 100%;
+  margin-top: 15px;
   padding: 13px 22px;
   border-radius: 5px;
   border: 1px solid #dde3ec;
@@ -89,10 +92,12 @@ h2{
   outline: none;
   resize: none;
 }
+
 .formbold-form-input:focus {
   border-color: #3365b5;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
+
 .formbold-form-label {
   color: #536387;
   font-size: 14px;
@@ -100,6 +105,7 @@ h2{
   display: block;
   margin-bottom: 10px;
 }
+
 select{
   appearance: none;
   text-align: left;
@@ -112,7 +118,6 @@ select{
   padding: 13px 22px;
   border-radius: 5px;
   line-height: 24px;
-  
   
   background-image:
   linear-gradient(45deg, transparent 50%, gray 50%),
@@ -149,6 +154,8 @@ select:hover{
 }
 
 .formbold-btn1 {
+  width: 100px;
+  height: 50px;
   font-size: 16px;
   border-radius: 5px;
   padding: 14px 25px;
@@ -157,10 +164,14 @@ select:hover{
   background-color:#3365b5;
   color: white;
   cursor: pointer;
-  margin-top: 5px;
+  margin-right: 15px;
+  margin-top: 20px;
 }
 
 .formbold-btn2 {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
   font-size: 16px;
   border-radius: 5px;
   padding: 14px 25px;
@@ -169,7 +180,9 @@ select:hover{
   background-color:#6bcde3;
   color: white;
   cursor: pointer;
-  margin-top: 5px;
+  margin-right: 15px;
+  margin-top: 20px;
+
 }
 
 .formbold-btn:hover {
@@ -187,10 +200,6 @@ select:hover{
 input[type="date"]{
   background-color: #f6f6f6;;
   padding: 15px;
-  position: relative;
-  transform: translate(-50%,-50%);
-  top: 50%;
-  left: 50%;
   font-family: "Roboto Mono",monospace;
   color: #000;
   font-size: 14px;
@@ -207,7 +216,8 @@ input[type="date"]:hover {
 input::placeholder{
   font-size: 14px;
 }
-.alert{
+
+/* .alert{
   background: #ffdb9b ;
   padding: 20px 40px ;
   min-width: 420px ;
@@ -220,6 +230,7 @@ input::placeholder{
   border-radius: 4px;
   border-left: 8px solid #ffa502;
 }
+
 .alert .fa-circle-exclamation{
   position: absolute;
   left: 20px;
@@ -228,95 +239,167 @@ input::placeholder{
   color: #ce8500;
   font-size: 30px;
 }
+
 .alert .msg{
   padding: 0px 20px ;
   font-size: 18px;
   color: #ce8500;
-}
+} */
 
 input{
-    padding:5px;
-    background-color:#eeeeee;
+  padding:5px;
+  background-color:#eeeeee;
 }
+
 h2{
-    text-align: center;
-    margin-top: 100px;
-    font-weight: 600;
+  text-align: center;
+  margin-top: 100px;
+  font-weight: 600;
+}
+
+/* datepicker */
+
+.ui-datepicker {
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  background-color: white;
+}
+
+.ui-datepicker-calendar {
+  text-transform: uppercase;
+}
+
+.ui-datepicker-month {
+  width: 120px;
+  background-color:whitesmoke;
+  color: #333;
+  padding: 5px;
+  border-radius: 5px;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  border: white;
+}
+
+.ui-datepicker-year {
+  width: 100px;
+  margin-left: 15px;
+  background-color:whitesmoke;
+  color: #333;
+  padding: 5px;
+  border-radius: 5px;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  border: white;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next{
+  width: 20px;
+  height: 20px;
+  text-indent: 9999px;
+  border-radius: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.ui-datepicker-prev{
+  float: left;
+  margin-left: 12px;   
+  &:after {
+  transform: rotate(45deg);
+  margin: -26px 0px 0px 8px;
+  }
+}
+
+.ui-datepicker-next{
+  float: right;
+  margin-right: 12px;
+  &:after{
+  transform: rotate(-135deg);
+  margin: -26px 0px 0px 6px;
+  }
+}
+  
+.ui-datepicker-prev:after, .ui-datepicker-next:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid #b0aead;
+  border-bottom: 2px solid #b0aead;
+}
+
+.ui-datepicker-title {
+  text-align: center;
+  margin-top: 26px;
+}
+
+table.dataTable,table {
+  border-collapse: separate; /* "separate" or "collapse" */
+  border-spacing: 0;
+  width: 100%;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+table.dataTable thead th,th {
+  text-align: center;
+  padding: 0.9rem;
+  font-weight: normal;
+  font-size: 0.9rem;
+  background-color: #fff; 
+  color: #1a48ab;
+  white-space: nowrap;
+  border: 0;
+}
+
+table.dataTable tbody td, td {
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  border: 0.1rem solid white;
+  color: #cbd0d1;
+}
+
+a.ui-state-default {
+  text-decoration: none;
+  color: black;
+}
+
+button {
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  visibility: hidden;
+}
+
+a.ui-state-default:hover {
+  color: #1a48ab;
+  font-weight: bolder;
+}
+
+.ui-state-active{
+  display:block;
+  background: #f5ef9a;
+  border-radius: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.ui-state-highlight {
+  color: red !important;
+  font-weight: bolder;
+}
+
+
+
+@media(max-width:770px){
+  .formbold-input-flex {
+    display: block;
+    gap: 75px;
+    color: #536387;
+  }
+
+  .leaveDate{
+    font-size: 14px;
+    margin: 15px;
+  }
 } 
-
-/* ******************************* DataTables ******************************* */
-
-
-table {
-
-    border-collapse: separate; /* "separate" or "collapse" */
-
-    border-spacing: 0;
-
-    width: 100%;
-
-}
-
-
-
-
-
-th {
-
-    text-align: center;
-
-    padding: 0.9rem;
-
-    font-weight: normal;
-
-    font-size: 0.9rem;
-
-    background-color: blue;
-
-    color: white;
-
-    white-space: nowrap;
-
-    border: 0;
-
-}
-
-
-
-
-
-td {
-
-    text-align: center;
-
-    padding: 0.8rem;
-
-    font-size: 0.8rem;
-
-    border: 0.1rem solid green;
-
-    color: yellow;
-
-}
-
-
-
-
-
-tr:nth-child(even) {
-
-    background-color: gray;
-
-}
-
-
-
-
-
-tr:nth-child(odd) {
-
-    background-color: pink;
-
-}
-
-/* ************************************************************************** */

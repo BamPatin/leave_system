@@ -1,56 +1,57 @@
 var yyyy = new Date().getFullYear();
-  // var tommorrow = new Date().getDate() + 1;
-  var holiday = [
-    new Date(yyyy, 0, 1).getTime(), //วันปีใหม่
-    new Date(yyyy, 2, 6).getTime(), //วันมาฆบูชา
-    new Date(yyyy, 3, 6).getTime(), //วันจักรี
-    new Date(yyyy, 3, 13).getTime(), //วันสงกรานต์
-    new Date(yyyy, 3, 14).getTime(), //วันสงกรานต์
-    new Date(yyyy, 3, 15).getTime(), //วันสงกรานต์
-    new Date(yyyy, 4, 4).getTime(), //วันฉัตรมงคล
-    new Date(yyyy, 5, 3).getTime(), //วันวิสาขบูชา
-    new Date(yyyy, 6, 28).getTime(), //วันเฉลิมพระชนมพรรษา ร.10
-    new Date(yyyy, 7, 1).getTime(), //วันอาสาฬหบูชา
-    new Date(yyyy, 7, 12).getTime(), //วันแม่
-    new Date(yyyy, 9, 13).getTime(), //วันคล้ายวันสวรรคต ร.9
-    new Date(yyyy, 9, 23).getTime(), //วันปิยมหาราช
-    new Date(yyyy, 11, 5).getTime(), //วันพ่อ
-    new Date(yyyy, 11, 10).getTime(), //วันรัฐธรรมนูญ
-  ];
+// var tommorrow = new Date().getDate() + 1;
+var holiday = [
+  new Date(yyyy, 0, 1).getTime(), //วันปีใหม่
+  new Date(yyyy, 2, 6).getTime(), //วันมาฆบูชา
+  new Date(yyyy, 3, 6).getTime(), //วันจักรี
+  new Date(yyyy, 3, 13).getTime(), //วันสงกรานต์
+  new Date(yyyy, 3, 14).getTime(), //วันสงกรานต์
+  new Date(yyyy, 3, 15).getTime(), //วันสงกรานต์
+  new Date(yyyy, 4, 4).getTime(), //วันฉัตรมงคล
+  new Date(yyyy, 5, 3).getTime(), //วันวิสาขบูชา
+  new Date(yyyy, 6, 28).getTime(), //วันเฉลิมพระชนมพรรษา ร.10
+  new Date(yyyy, 7, 1).getTime(), //วันอาสาฬหบูชา
+  new Date(yyyy, 7, 12).getTime(), //วันแม่
+  new Date(yyyy, 9, 13).getTime(), //วันคล้ายวันสวรรคต ร.9
+  new Date(yyyy, 9, 23).getTime(), //วันปิยมหาราช
+  new Date(yyyy, 11, 5).getTime(), //วันพ่อ
+  new Date(yyyy, 11, 10).getTime(), //วันรัฐธรรมนูญ
+];
 
-  $('#datepicker_1 , #datepicker_2').datepicker({
-    dateFormat: "d M yy",
-      minDate: 0,
-      // maxDate: "+4M",
-      showButtonPanel: true,
-      changeMonth: true,
-      changeYear: true,
-    beforeShowDay: function(date) {
-      var showDay = true;
-      if (date.getDay() == 0 || date.getDay() == 6) {
-        showDay = false; // ไม่แสดงวันเสาร์และวันอาทิตย์
-      }
-      if ($.inArray(date.getTime(), holiday) > -1) {
-        showDay = false;  
-      }
-      return [showDay];
-    }  
-  });
-  
-  var formattedHoliday = holiday.map(function(timestamp) {
-      var date = new Date(timestamp);
-      return date.toLocaleDateString('th-TH');
-      });
-      console.log(formattedHoliday);
+$('#datepicker_1 , #datepicker_2').datepicker({
+  dateFormat: "d M yy",
+    // minDate: 0,
+    // maxDate: "+4M",
+    showButtonPanel: true,
+    changeMonth: true,
+    changeYear: true,
+  beforeShowDay: function(date) {
+    var showDay = true;
+    if (date.getDay() == 0 || date.getDay() == 6) {
+      showDay = false; // ไม่แสดงวันเสาร์และวันอาทิตย์
+    }
+    if ($.inArray(date.getTime(), holiday) > -1) {
+      showDay = false;  
+    }
+    return [showDay];
+  }  
+});
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var alerts = document.getElementsByClassName('alert');
-    Array.prototype.forEach.call(alerts, function(alert) {
-    setTimeout(function() {
-        alert.style.display = 'none';
-    }, 5000);
+var formattedHoliday = holiday.map(function(timestamp) {
+    var date = new Date(timestamp);
+    return date.toLocaleDateString('th-TH');
     });
+    console.log(formattedHoliday);
+
+document.addEventListener('DOMContentLoaded', function() {
+  var alerts = document.getElementsByClassName('alert');
+  Array.prototype.forEach.call(alerts, function(alert) {
+  setTimeout(function() {
+      alert.style.display = 'none';
+  }, 5000);
   });
+});
+
 
   // เพิ่ม event listener ให้กับฟิลด์ NumberLeave เมื่อมีการเลือกวันที่
   $('#numberLeave').on('change', function() {

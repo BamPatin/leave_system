@@ -29,11 +29,10 @@
             <a href="/info" id="hello">Hello, {{user.username}}</a>
 
             {% if user.position|lower == "hr" %}
-                {% if user.level == "1" %}
-                  <a href="/createForm">Add</a>
-                {% else %}
+                {% if not user.level == "1" %}
                   <a href="/createForm">Add</a>
                   <a href="/approve">Approve</a>
+                  
                 {% endif %}
             {% else %}
                 {% if not user.level == "1" %}
