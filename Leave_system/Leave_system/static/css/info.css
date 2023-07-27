@@ -4,7 +4,7 @@ body{
 }
 .emp-profile{
     padding: 3%;
-    margin-top: 6.5%;
+    margin-top: 85px;
     margin-bottom: 3%;
     border-radius: 0.5rem;
     background: #fff;
@@ -45,4 +45,13 @@ body{
 
 button{
     align-items: right;
+    margin-left: 50px;
 }
+
+ิ.btn{
+    margin-left: 50px;
+}
+
+a[href^="/"]{
+    margin-right: 20px;
+.}

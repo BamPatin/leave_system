@@ -11,7 +11,7 @@ var holiday = [
   new Date(yyyy, 5, 3).getTime(), //วันวิสาขบูชา
   new Date(yyyy, 6, 28).getTime(), //วันเฉลิมพระชนมพรรษา ร.10
   new Date(yyyy, 7, 1).getTime(), //วันอาสาฬหบูชา
-  new Date(yyyy, 7, 12).getTime(), //วันแม่
+  new Date(yyyy, 7, 14).getTime(), //วันหยุดชดเชยวันแม่
   new Date(yyyy, 9, 13).getTime(), //วันคล้ายวันสวรรคต ร.9
   new Date(yyyy, 9, 23).getTime(), //วันปิยมหาราช
   new Date(yyyy, 11, 5).getTime(), //วันพ่อ
@@ -41,7 +41,6 @@ var formattedHoliday = holiday.map(function(timestamp) {
     var date = new Date(timestamp);
     return date.toLocaleDateString('th-TH');
     });
-    console.log(formattedHoliday);
 
 document.addEventListener('DOMContentLoaded', function() {
   var alerts = document.getElementsByClassName('alert');
@@ -59,7 +58,6 @@ $('#datepicker_1').on('change', function() {
   $('#datepicker_2').datepicker('setDate', fromDate);
   enableNumberLeave();
   calculateLeaveDays();
-
 });
 
 // เพิ่ม event listener ให้กับฟิลด์ To_Date เมื่อมีการเลือกวันที่
@@ -155,3 +153,58 @@ function calculateDays() {
     $('#datepicker_2').datepicker('setDate', toDate);
   }
 }
+
+
+
+function checkcheck() {
+  var reasonInput = document.getElementById('reason').value.trim();
+  var typeleaveInput = document.getElementById('typeleave').value.trim();
+
+  if (typeleaveInput === '') {
+    // แสดง SweetAlert เมื่อไม่ได้เลือกประเภทการลา
+    swal.fire({      
+      icon: 'warning',
+      text: 'กรุณาเลือกประเภทการลา',
+      showConfirmButton: false,})
+    setTimeout(function(){
+      Swal.close()
+    }, 2500);  
+    return false; // หยุดการส่งฟอร์ม
+  } else if (reasonInput === '') {
+    // แสดง SweetAlert เมื่อไม่ได้กรอกเหตุผล
+    swal.fire({      
+      icon: 'warning',
+      text: 'กรุณากรอกเหตุผล',
+      showConfirmButton: false,})
+    setTimeout(function(){
+      Swal.close();
+    }, 2500);    
+    return false; // หยุดการส่งฟอร์ม
+  } else {
+    // มีข้อมูลในการกรอกเหตุผลและเลือกประเภทการลา สามารถส่งฟอร์มได้
+    // return true;
+    var form = document.getElementById("form_leave");
+    form.submit(); 
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  

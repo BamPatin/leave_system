@@ -6,7 +6,6 @@ window.onload = function() {
     var element_3 = document.querySelector('nav a:nth-child(3)');
     var element_4 = document.querySelector('nav a:nth-child(4)');
     var indicator = document.querySelector('#indicator');
-     
     var buttonContainer = document.getElementById('buttonContainer');
     var links = buttonContainer.getElementsByTagName('a');
     var numLinks = links.length;
@@ -52,14 +51,12 @@ window.onload = function() {
         element_2.addEventListener('mouseleave', function() {
           indicator.style.left = '';
         });
-  
         element_3.addEventListener('mouseenter', function() {
           indicator.style.left = '14.7rem';
         });
         element_3.addEventListener('mouseleave', function() {
           indicator.style.left = '';
-        });
-  
+        });  
         element_4.addEventListener('mouseenter', function() {
           indicator.style.left = '21.7rem';
         });
@@ -73,7 +70,6 @@ window.onload = function() {
     }
   
     else if (5 < count && count <= 10){
-       
       console.log("count user " + count);
       console.log(user);
     }

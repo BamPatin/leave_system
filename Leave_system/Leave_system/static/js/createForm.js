@@ -23,3 +23,8 @@ function checkInput() {
   var form = document.getElementById("register_form");
   form.submit(); // ส่งฟอร์มเมื่อไม่มีข้อผิดพลาด
 }
+
+
+
+
+
